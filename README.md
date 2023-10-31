@@ -21,6 +21,12 @@ Given a message with a flag a user with permissions to create expressions can th
 - Probably suboptimal python practices, this was a quick one night python derusting project as well as for me to familiarize myself with the discord api
 
 ##
+# To Do
+- Address current issues
+- Pack into Docker
+
+
+##
 # Setup
 - Install Python3 and the following dependencies:
   - dotenv 1.0.0
