@@ -18,6 +18,8 @@ Given a message with a flag a user with permissions to create expressions can th
 - No testing on the too many emojis case
 - No testing on oddly shaped images
 - No testing on non .png images
+- Add image processing to crop into squares
+- Work with discord command auto complete
 - Probably suboptimal python practices, this was a quick one night python derusting project as well as for me to familiarize myself with the discord api
 
 ##
