@@ -13,13 +13,13 @@ Given a message with a flag a user with permissions to create expressions can th
 ##
 # Current Issues
 
-- No testing nor protection for multiple servers. 1 bot per server recommended
 - Needs explicit create expression on top role. cannot inherited
 - No testing on the too many emojis case
 - No testing on oddly shaped images
 - No testing on non .png images
 - Add image processing to crop into squares
 - Work with discord command auto complete
+- Check security for multiple discord servers
 - Probably suboptimal python practices, this was a quick one night python derusting project as well as for me to familiarize myself with the discord api
 
 ##
