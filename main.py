@@ -71,5 +71,6 @@ async def emotify(ctx, name):
     
     if image != None:
         await ctx.guild.create_custom_emoji(name=name, image=image) #create emoji
+        ctx.send('Attempted Add')
 
 bot.run(token)
