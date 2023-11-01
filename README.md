@@ -16,7 +16,7 @@ Given a message with a flag a user with permissions to create expressions can th
 - Needs explicit create expression on top role. cannot inherited
 - No testing on the too many emojis case
 - No testing on oddly shaped images
-- No testing on non .png images
+- only tested for png and jpg
 - Add image processing to crop into squares
 - Work with discord command auto complete
 - Check security for multiple discord servers
