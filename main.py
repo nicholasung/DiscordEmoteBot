@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord import app_commands
 import discord
 import os
+import sys
 
 # Load environment variables from .env file
 load_dotenv()
@@ -30,8 +31,6 @@ def check_key(key): #return the pair of the guild with most recent
             return pair
     print("no pair")
     return -1
-        
-
 
 @bot.event
 async def on_message(m):
@@ -51,6 +50,16 @@ async def on_message(m):
 async def status(ctx):
     await ctx.send('Active')
 
+#image valid helper
+def image_valid(img):
+    if img == None:
+        return False
+    if sys.getsizeof(img) < 256000:
+        return True
+    return False
+
+#image cropping helper
+
 # command: add
 @bot.command()
 async def emotify(ctx, name):
@@ -68,9 +77,12 @@ async def emotify(ctx, name):
     if len(guild_emojis) >= ctx.guild.emoji_limit: 
        await ctx.send('Too many Emojis, no more space!')
        return 
-    
-    if image != None:
+
+    if image_valid(image):
         await ctx.guild.create_custom_emoji(name=name, image=image) #create emoji
-        ctx.send('Attempted Add')
+        #await ctx.guild.create_custom_emoji(name=name, image=image_process(image)) #create emoji
+        await ctx.send('Attempted Add')
+    else:
+        await ctx.send('Image too large (max 250kb)')
 
 bot.run(token)
