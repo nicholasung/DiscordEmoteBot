@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord import app_commands
+from imgpro.py import compress
 import discord
 import os
 import sys
@@ -54,6 +55,8 @@ async def status(ctx):
 def image_valid(img):
     if img == None:
         return False
+    # if img sys.getsizeof(img) >= 256000:
+    # call compression helper and return true
     if sys.getsizeof(img) < 256000:
         return True
     return False
