@@ -15,9 +15,8 @@ Given a message with a flag a user with permissions to create expressions can th
 
 - Needs explicit create expression on top role. cannot inherited
 - No testing on the too many emojis case
-- No testing on oddly shaped images
 - only tested for png and jpg
-- Add image processing to crop into squares
+- Tune image cropping 
 - Work with discord command auto complete
 - Check security for multiple discord servers
 - Probably suboptimal python practices, this was a quick one night python derusting project as well as for me to familiarize myself with the discord api
@@ -33,6 +32,7 @@ Given a message with a flag a user with permissions to create expressions can th
 - Install Python3 and the following dependencies:
   - dotenv 1.0.0
   - discord 2.3.2
+  - pillow
 - Create a discord bot through their developer website
 - Paste in your token in .env
 - Run main.py
