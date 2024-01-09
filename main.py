@@ -1,7 +1,9 @@
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord import app_commands
-from imgpro.py import compress
+from PIL import Image, ImageOps
+from PIL import *
+import io
 import discord
 import os
 import sys
@@ -57,11 +59,20 @@ def image_valid(img):
         return False
     # if img sys.getsizeof(img) >= 256000:
     # call compression helper and return true
-    if sys.getsizeof(img) < 256000:
-        return True
-    return False
+    # if sys.getsizeof(img) < 256000:
+    #     return True
+    return True
 
-#image cropping helper
+async def compress(b_img):
+    # MAIN FUNCTION THAT CALLS HELPERS THAT WILL CONVERT BYTE TO PIL IMG, COMPRESS AND THEN RETURN THE COMPRESSED AS A BYTES OBJECT AGAIN
+    p_img = Image.open(io.BytesIO(b_img))
+    # compress image 128*128 (integer scale for discord) 
+    emote_resolution = (128, 128)
+    comp_img = ImageOps.fit(p_img, emote_resolution)
+    # convert comp_img to byte string
+    comp_b_img = io.BytesIO()
+    comp_img.save(comp_b_img, format='PNG')
+    return comp_b_img.getvalue()
 
 # command: add
 @bot.command()
@@ -82,7 +93,9 @@ async def emotify(ctx, name):
        return 
 
     if image_valid(image):
-        await ctx.guild.create_custom_emoji(name=name, image=image) #create emoji
+        # implementing so it is always compressed
+        compressed = await compress(image)
+        await ctx.guild.create_custom_emoji(name=name, image=compressed) #create emoji
         #await ctx.guild.create_custom_emoji(name=name, image=image_process(image)) #create emoji
         await ctx.send('Attempted Add')
     else:
