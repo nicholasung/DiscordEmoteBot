@@ -17,3 +17,4 @@ Given a message with a flag a user with permissions to create expressions can th
 - Add your bots token to the .env file
 - run ``` docker build --build-arg TOKEN=$(grep TOKEN .env | cut -d '=' -f2) -t discordemotebot . ```
 - to start run ```docker run discordemotebot```
+(Alternatively. You can use Docker-Compose in the main directory
