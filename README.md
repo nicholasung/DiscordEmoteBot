@@ -21,18 +21,10 @@ Given a message with a flag a user with permissions to create expressions can th
 - Check security for multiple discord servers
 - Probably suboptimal python practices, this was a quick one night python derusting project as well as for me to familiarize myself with the discord api
 
-##
-# To Do
-- Address current issues
-- Pack into Docker
-
 
 ##
 # Setup
-- Install Python3 and the following dependencies:
-  - dotenv 1.0.0
-  - discord 2.3.2
-  - pillow
-- Create a discord bot through their developer website
-- Paste in your token in .env
-- Run main.py
+- Install Docker and Pull the Alpine container
+- cd into the main directory in the repo
+- run ``` docker build --build-arg TOKEN=$(grep TOKEN .env | cut -d '=' -f2) -t discordemotebot . ```
+- to start run ```docker run discordemotebot```

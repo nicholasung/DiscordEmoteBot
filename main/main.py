@@ -11,6 +11,7 @@ import sys
 # Load environment variables from .env file
 load_dotenv()
 token = os.getenv('TOKEN')
+print(token)
 
 # init intents
 intents = discord.Intents.default()
