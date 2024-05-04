@@ -11,18 +11,6 @@ Given a message with a flag a user with permissions to create expressions can th
 2. Send command: /emotify <name>
 
 ##
-# Current Issues
-
-- Needs explicit create expression on top role. cannot inherited
-- No testing on the too many emojis case
-- only tested for png and jpg
-- Tune image cropping 
-- Work with discord command auto complete
-- Check security for multiple discord servers
-- Probably suboptimal python practices, this was a quick one night python derusting project as well as for me to familiarize myself with the discord api
-
-
-##
 # Setup
 - Install Docker and Pull the Alpine container
 - cd into the main directory in the repo
