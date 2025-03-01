@@ -78,10 +78,11 @@ async def compress(b_img):
 async def emotify(interaction: discord.Interaction, name: str):
     image = None
     if interaction.user.guild_permissions.manage_emojis_and_stickers: #NEEDS TO EXPLICITLY HAVE MANAGE_EMOJIS, CANNOT BE INHERITED
-        if check_key(interaction.guild.id) != -1: #is a message
+        if check_key(interaction.guild.id) != -1: #is a message put this in a try catch
             image = await check_key(interaction.guild.id).get("msg").attachments[0].read()
         else: 
-            await interaction.response.send_message('There is no valid emote candidate')
+            # await interaction.response.send_message('There is no valid emote candidate')
+            await interaction.response.send_message('Image Error')
     else: 
        await interaction.response.send_message('You do not have emoji creation permissions')
 
@@ -96,9 +97,10 @@ async def emotify(interaction: discord.Interaction, name: str):
         compressed = await compress(image)
         await interaction.guild.create_custom_emoji(name=name, image=compressed) #create emoji
         #await ctx.guild.create_custom_emoji(name=name, image=image_process(image)) #create emoji
-        await interaction.response.send_message('Attempted Add')
+        await interaction.response.send_message('Attempted Add :' + name + ':')
     else:
-        await interaction.response.send_message('Image too large (max 250kb)')
+        # await interaction.response.send_message('Image too large (max 250kb)')
+        await interaction.response.send_message('Image Error')
 
 # event: when the bot is ready
 @bot.event
