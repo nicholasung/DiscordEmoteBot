@@ -6,7 +6,6 @@ from PIL import *
 import io
 import discord
 import os
-import sys
 
 # Load environment variables from .env file
 load_dotenv()
@@ -21,12 +20,9 @@ intents.guild_reactions = True
 intents.message_content = True
 global most_recent
 most_recent = [] #array of dictionary pairs (guild, message)
-bot = commands.Bot(command_prefix='/', intents=intents)
+# imgbot = commands.Bot(command_prefix=';', intents=intents)
+bot = commands.Bot(command_prefix=';', intents=intents) #discord.Client(intents=intents)
 
-# event: when the bot is ready
-@bot.event
-async def on_ready():
-    print('We have logged in')
 
 def check_key(key): #return the pair of the guild with most recent
     for pair in most_recent:
@@ -38,7 +34,7 @@ def check_key(key): #return the pair of the guild with most recent
 
 @bot.event
 async def on_message(m):
-    if m.content.startswith("$add"):
+    if m.content.startswith("/image"):
         if len(m.attachments) == 1:
             if m.attachments[0].content_type.startswith("image/"):
                 if len(most_recent) != 0:
@@ -46,13 +42,15 @@ async def on_message(m):
                         if i < len(most_recent) and m.guild.id == most_recent[i].get("gid"):
                             most_recent.pop(i)
                 most_recent.append(dict(gid = m.guild.id, msg = m)) #add a new most recent: Must now find a way to delete old recents for the guild if they exist (just have it delete on a timer)
+                await m.channel.send("Image is cached in my cheeks!")
             print(most_recent)
     await bot.process_commands(m)
 
-# command: status
-@bot.command()
-async def status(ctx):
-    await ctx.send('Active')
+
+@bot.tree.command(name="status", description="Check the bot's status")
+async def status(interaction: discord.Interaction):
+     await interaction.response.send_message('Squeak! (I am here!)', ephemeral=True)
+
 
 #image valid helper
 def image_valid(img):
@@ -76,30 +74,39 @@ async def compress(b_img):
     return comp_b_img.getvalue()
 
 # command: add
-@bot.command()
-async def emotify(ctx, name):
+@bot.tree.command(name="emotify", description="makes the most recent $add image into an emote")
+async def emotify(interaction: discord.Interaction, name: str):
     image = None
-    if ctx.author.top_role.permissions.create_expressions: #NEEDS TO EXPLICITLY HAVE MANAGE_EMOJIS, CANNOT BE INHERITED
-        if check_key(ctx.guild.id) != -1: #is a message
-            image = await check_key(ctx.guild.id).get("msg").attachments[0].read()
+    if interaction.user.guild_permissions.manage_emojis_and_stickers: #NEEDS TO EXPLICITLY HAVE MANAGE_EMOJIS, CANNOT BE INHERITED
+        if check_key(interaction.guild.id) != -1: #is a message
+            image = await check_key(interaction.guild.id).get("msg").attachments[0].read()
         else: 
-            await ctx.send('There is no valid emote candidate')
+            await interaction.response.send_message('There is no valid emote candidate')
     else: 
-       await ctx.send('You do not have emoji creation permissions')
+       await interaction.response.send_message('You do not have emoji creation permissions')
 
-    guild_emojis = await ctx.guild.fetch_emojis() #emjoi limit checks
+    guild_emojis = await interaction.guild.fetch_emojis() #emjoi limit checks
 
-    if len(guild_emojis) >= ctx.guild.emoji_limit: 
-       await ctx.send('Too many Emojis, no more space!')
+    if len(guild_emojis) >= interaction.guild.emoji_limit: 
+       await interaction.response.send_message('Too many Emojis, no more space!')
        return 
 
     if image_valid(image):
         # implementing so it is always compressed
         compressed = await compress(image)
-        await ctx.guild.create_custom_emoji(name=name, image=compressed) #create emoji
+        await interaction.guild.create_custom_emoji(name=name, image=compressed) #create emoji
         #await ctx.guild.create_custom_emoji(name=name, image=image_process(image)) #create emoji
-        await ctx.send('Attempted Add')
+        await interaction.response.send_message('Attempted Add')
     else:
-        await ctx.send('Image too large (max 250kb)')
+        await interaction.response.send_message('Image too large (max 250kb)')
+
+# event: when the bot is ready
+@bot.event
+async def on_ready():
+    await bot.tree.sync()
+    print('We have logged in and synced')
+    print('Synced commands:')
+    for command in bot.tree.walk_commands():
+        print(f"- {command.name}: {command.description}")
 
 bot.run(token)
