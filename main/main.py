@@ -42,7 +42,7 @@ async def on_message(m):
                         if i < len(most_recent) and m.guild.id == most_recent[i].get("gid"):
                             most_recent.pop(i)
                 most_recent.append(dict(gid = m.guild.id, msg = m)) #add a new most recent: Must now find a way to delete old recents for the guild if they exist (just have it delete on a timer)
-                await m.channel.send("Image is cached in my cheeks!")
+                await m.reply("Image is cached in my cheeks!")
             print(most_recent)
     await bot.process_commands(m)
 
