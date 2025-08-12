@@ -6,7 +6,7 @@ Given a message with a flag a user with permissions to create expressions can th
 
 ## 
 # Instructions
-1. Send a message with "$add" and the image you would like to turn into an emote
+1. Send a message with "/image" and the image you would like to turn into an emote
 
 2. Send command: /emotify <name>
 
@@ -17,4 +17,4 @@ Given a message with a flag a user with permissions to create expressions can th
 - Add your bots token to the .env file
 - run ``` docker build --build-arg TOKEN=$(grep TOKEN .env | cut -d '=' -f2) -t discordemotebot . ```
 - to start run ```docker run discordemotebot```
-(Alternatively. You can use Docker-Compose in the main directory
+(Alternatively. You can use Docker-Compose in the main directory)
